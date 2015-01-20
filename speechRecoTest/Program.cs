@@ -76,7 +76,7 @@ namespace speechRecoTest
             return infos.Count;
         }
 
-        public static int CheckInstalledVoice(string culture)
+        public static int CheckInstalledVoice(string culture, int i=0)
         {
             List<VoiceInfo> infos = new List<VoiceInfo>();
 
@@ -85,6 +85,11 @@ namespace speechRecoTest
             {
                 OutputVoiceInfo(voice.VoiceInfo);
                 infos.Add(voice.VoiceInfo);
+            }
+
+            if (infos.Count > 0)
+            {
+                _synthesizer.SelectVoice(infos[i].Name);
             }
 
             return infos.Count;
@@ -126,17 +131,20 @@ namespace speechRecoTest
 
             //Speech.Start();
 
+            SpeechManager.CheckInstalledVoice();
+            Console.WriteLine("\n\n");
+
             if (SpeechManager.CheckInstalledVoice("en-US") > 0)
             {
                 SpeechManager.Speak("I love you!");
             }
-            else if (SpeechManager.CheckInstalledVoice("fr-FR") > 0)
+            if (SpeechManager.CheckInstalledVoice("fr-FR") > 0)
             {
                 SpeechManager.Speak("Je t'aime !");
             }
-            else
+            if (SpeechManager.CheckInstalledVoice("es-ES") > 0)
             {
-                SpeechManager.Speak("I love you my dear!");
+                SpeechManager.Speak("Te quiero !");
             }
         }
     }
