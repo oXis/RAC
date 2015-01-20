@@ -35,14 +35,13 @@ namespace speechRecoTest
         static SpeechRecognitionEngine _recognizer;
         static SpeechSynthesizer _synthesizer;
 
+        static int culture;
         static ManualResetEvent manualResetEvent = null;
 
         static SpeechManager()
         {
             _recognizer = new SpeechRecognitionEngine();
             _synthesizer = new SpeechSynthesizer();
-
-            
         }
 
         public static void Start()
@@ -64,21 +63,25 @@ namespace speechRecoTest
             _synthesizer.Speak(sentence);
         }
 
-        public static void InstalledVoice(string culture)
+        public static bool InstalledVoice(string culture)
         {
             foreach (InstalledVoice voice in
             _synthesizer.GetInstalledVoices(new CultureInfo(culture)))
             {
                 VoiceInfo info = voice.VoiceInfo;
-                OutputVoiceInfo(info);
+                return OutputVoiceInfo(info);
             }
+
+            return false;
         }
 
-        private static void OutputVoiceInfo(VoiceInfo info)
+        private static bool OutputVoiceInfo(VoiceInfo info)
         {
             Console.WriteLine("  Name: {0}, culture: {1}, gender: {2}, age: {3}.",
               info.Name, info.Culture, info.Gender, info.Age);
             Console.WriteLine("    Description: {0}", info.Description);
+
+            return true;
         }
 
         static void SpeechRecognitionWithDictationGrammar()
@@ -109,8 +112,19 @@ namespace speechRecoTest
             Express.showMatch("Please, can you increase the speed", @"\bincrease\b");
 
             //Speech.Start();
-            SpeechManager.Speak("Will you mary me?");
-            SpeechManager.InstalledVoice("en-US");
+            
+            if (SpeechManager.InstalledVoice("en-US"))
+            {
+                SpeechManager.Speak("I love you!");
+            }
+            else if (SpeechManager.InstalledVoice("fr-FR"))
+            {
+                SpeechManager.Speak("Je t'aime !");
+            }
+            else
+            {
+                SpeechManager.Speak("I love you my dear!");
+            }
         }
     }
 }
