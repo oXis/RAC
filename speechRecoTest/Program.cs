@@ -63,25 +63,38 @@ namespace speechRecoTest
             _synthesizer.Speak(sentence);
         }
 
-        public static bool InstalledVoice(string culture)
+        public static int CheckInstalledVoice()
         {
+            List<VoiceInfo> infos = new List<VoiceInfo>();
+
+            foreach (InstalledVoice voice in _synthesizer.GetInstalledVoices())
+            {
+                OutputVoiceInfo(voice.VoiceInfo);
+                infos.Add(voice.VoiceInfo);
+            }
+
+            return infos.Count;
+        }
+
+        public static int CheckInstalledVoice(string culture)
+        {
+            List<VoiceInfo> infos = new List<VoiceInfo>();
+
             foreach (InstalledVoice voice in
             _synthesizer.GetInstalledVoices(new CultureInfo(culture)))
             {
-                VoiceInfo info = voice.VoiceInfo;
-                return OutputVoiceInfo(info);
+                OutputVoiceInfo(voice.VoiceInfo);
+                infos.Add(voice.VoiceInfo);
             }
 
-            return false;
+            return infos.Count;
         }
 
-        private static bool OutputVoiceInfo(VoiceInfo info)
+        private static void OutputVoiceInfo(VoiceInfo info)
         {
             Console.WriteLine("  Name: {0}, culture: {1}, gender: {2}, age: {3}.",
               info.Name, info.Culture, info.Gender, info.Age);
             Console.WriteLine("    Description: {0}", info.Description);
-
-            return true;
         }
 
         static void SpeechRecognitionWithDictationGrammar()
@@ -112,12 +125,12 @@ namespace speechRecoTest
             Express.showMatch("Please, can you increase the speed", @"\bincrease\b");
 
             //Speech.Start();
-            
-            if (SpeechManager.InstalledVoice("en-US"))
+
+            if (SpeechManager.CheckInstalledVoice("en-US") > 0)
             {
                 SpeechManager.Speak("I love you!");
             }
-            else if (SpeechManager.InstalledVoice("fr-FR"))
+            else if (SpeechManager.CheckInstalledVoice("fr-FR") > 0)
             {
                 SpeechManager.Speak("Je t'aime !");
             }
