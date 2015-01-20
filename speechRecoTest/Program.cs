@@ -10,6 +10,7 @@ using System.Speech.Recognition;
 
 using System.Windows.Forms;
 using InputManager;
+using System.Threading;
 
 namespace speechRecoTest
 {
@@ -26,6 +27,48 @@ namespace speechRecoTest
         }
     }
 
+    class SpeechReco
+    {
+        static SpeechRecognitionEngine _recognizer = null;
+        static ManualResetEvent manualResetEvent = null;
+        public static void Start()
+        {
+            manualResetEvent = new ManualResetEvent(false);
+
+            SpeechRecognitionWithDictationGrammar();
+
+            manualResetEvent.WaitOne();
+
+            if (_recognizer != null)
+            {
+                _recognizer.Dispose();
+            }
+
+        }
+
+        #region Speech recognition with DictationGrammar
+        static void SpeechRecognitionWithDictationGrammar()
+        {
+            _recognizer = new SpeechRecognitionEngine();
+            _recognizer.LoadGrammar(new Grammar(new GrammarBuilder("exit")));
+            _recognizer.LoadGrammar(new DictationGrammar());
+            _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(speechRecognitionWithDictationGrammar_SpeechRecognized);
+            _recognizer.SetInputToDefaultAudioDevice();
+            _recognizer.RecognizeAsync(RecognizeMode.Multiple);
+        }
+
+        static void speechRecognitionWithDictationGrammar_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            if (e.Result.Text == "exit")
+            {
+                manualResetEvent.Set();
+                return;
+            }
+            Console.WriteLine("You said: " + e.Result.Text);
+        }
+        #endregion
+
+    }
     class Program
     {
         static void Main(string[] args)
@@ -34,20 +77,8 @@ namespace speechRecoTest
 
             Express.showMatch("Please, can you increase the speed", @"\bincrease\b");
             System.Threading.Thread.Sleep((int)(3000));
-            Keyboard.KeyDown(Keys.H);
-            Keyboard.KeyUp(Keys.H);
 
-            Keyboard.KeyDown(Keys.E);
-            Keyboard.KeyUp(Keys.E);
-
-            Keyboard.KeyDown(Keys.L);
-            Keyboard.KeyUp(Keys.L);
-
-            Keyboard.KeyDown(Keys.L);
-            Keyboard.KeyUp(Keys.L);
-
-            Keyboard.KeyDown(Keys.O);
-            Keyboard.KeyUp(Keys.O);
+            SpeechReco.Start();
         }
     }
 }
