@@ -7,10 +7,13 @@ using System.Text.RegularExpressions;
 
 using System.Speech;
 using System.Speech.Recognition;
+using System.Globalization;
 
 using System.Windows.Forms;
+
 using InputManager;
 using System.Threading;
+using System.Speech.Synthesis;
 
 namespace speechRecoTest
 {
@@ -27,10 +30,21 @@ namespace speechRecoTest
         }
     }
 
-    class SpeechReco
+    class SpeechManager
     {
-        static SpeechRecognitionEngine _recognizer = null;
+        static SpeechRecognitionEngine _recognizer;
+        static SpeechSynthesizer _synthesizer;
+
         static ManualResetEvent manualResetEvent = null;
+
+        static SpeechManager()
+        {
+            _recognizer = new SpeechRecognitionEngine();
+            _synthesizer = new SpeechSynthesizer();
+
+            
+        }
+
         public static void Start()
         {
             manualResetEvent = new ManualResetEvent(false);
@@ -43,13 +57,32 @@ namespace speechRecoTest
             {
                 _recognizer.Dispose();
             }
-
         }
 
-        #region Speech recognition with DictationGrammar
+        public static void Speak(string sentence)
+        {
+            _synthesizer.Speak(sentence);
+        }
+
+        public static void InstalledVoice(string culture)
+        {
+            foreach (InstalledVoice voice in
+            _synthesizer.GetInstalledVoices(new CultureInfo(culture)))
+            {
+                VoiceInfo info = voice.VoiceInfo;
+                OutputVoiceInfo(info);
+            }
+        }
+
+        private static void OutputVoiceInfo(VoiceInfo info)
+        {
+            Console.WriteLine("  Name: {0}, culture: {1}, gender: {2}, age: {3}.",
+              info.Name, info.Culture, info.Gender, info.Age);
+            Console.WriteLine("    Description: {0}", info.Description);
+        }
+
         static void SpeechRecognitionWithDictationGrammar()
         {
-            _recognizer = new SpeechRecognitionEngine();
             _recognizer.LoadGrammar(new Grammar(new GrammarBuilder("exit")));
             _recognizer.LoadGrammar(new DictationGrammar());
             _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(speechRecognitionWithDictationGrammar_SpeechRecognized);
@@ -66,8 +99,6 @@ namespace speechRecoTest
             }
             Console.WriteLine("You said: " + e.Result.Text);
         }
-        #endregion
-
     }
     class Program
     {
@@ -76,9 +107,10 @@ namespace speechRecoTest
             //Express exp = new Express();
 
             Express.showMatch("Please, can you increase the speed", @"\bincrease\b");
-            System.Threading.Thread.Sleep((int)(3000));
 
-            SpeechReco.Start();
+            //Speech.Start();
+            SpeechManager.Speak("Will you mary me?");
+            SpeechManager.InstalledVoice("en-US");
         }
     }
 }
