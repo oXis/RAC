@@ -10,32 +10,57 @@ class SpeechManager
     static SpeechRecognitionEngine _recognizer = null;
     static SpeechSynthesizer _synthesizer = null;
     static CultureInfo _culture = null;
-    
-    static ManualResetEvent manualResetEvent = null;
 
     static SpeechManager()
     {
         _synthesizer = new SpeechSynthesizer();
     }
 
+    #region SpeechRecognitionEngine
     public static void Start()
     {
         _culture = Thread.CurrentThread.CurrentCulture;
 
         _recognizer = new SpeechRecognitionEngine(_culture);
-        Console.WriteLine(_culture.Name);
-        manualResetEvent = new ManualResetEvent(false);
 
-        SpeechRecognitionWithDictationGrammar();
+        LoadDictationGrammar();
+        LoadGammar();
 
-        manualResetEvent.WaitOne();
+        _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(HandleSpeechRecognized);
+        _recognizer.SetInputToDefaultAudioDevice();
+        _recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
+    }
+
+    public static void Stop()
+    {
         if (_recognizer != null)
         {
             _recognizer.Dispose();
         }
     }
 
+    static void LoadDictationGrammar()
+    {
+        _recognizer.LoadGrammar(new DictationGrammar());
+    }
+
+    static void LoadGammar()
+    {
+        GrammarBuilder gb = new GrammarBuilder();
+        gb.Culture = _culture;
+        gb.Append("exit");
+        _recognizer.LoadGrammar(new Grammar(gb));
+    }
+
+    static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+    {
+        Console.WriteLine("You said: " + e.Result.Text);
+        //Speak(e.Result.Text);
+    }
+    #endregion SpeechRecognitionEngine
+
+    #region SpeechSynthesizer
     public static void Speak(string sentence)
     {
         _synthesizer.Speak(sentence);
@@ -118,27 +143,5 @@ class SpeechManager
           info.Name, info.Culture, info.Gender, info.Age);
         Console.WriteLine("    Description: {0}", info.Description);
     }
-
-    static void SpeechRecognitionWithDictationGrammar()
-    {
-        GrammarBuilder gb = new GrammarBuilder();
-        gb.Culture = _culture;
-        gb.Append("exit");
-        _recognizer.LoadGrammar(new Grammar(gb));
-        _recognizer.LoadGrammar(new DictationGrammar());
-        _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(speechRecognitionWithDictationGrammar_SpeechRecognized);
-        _recognizer.SetInputToDefaultAudioDevice();
-        _recognizer.RecognizeAsync(RecognizeMode.Multiple);
-    }
-
-    static void speechRecognitionWithDictationGrammar_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-    {
-        if (e.Result.Text == "exit")
-        {
-            manualResetEvent.Set();
-            return;
-        }
-        Console.WriteLine("You said: " + e.Result.Text);
-        //Speak(e.Result.Text);
-    }
+    #endregion SpeechSynthesizer
 }

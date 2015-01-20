@@ -37,12 +37,12 @@ namespace speechRecoTest
 
             //Speech.Start();
 
-            //SpeechManager.CheckInstalledVoice();
+            SpeechManager.CheckInstalledVoice();
             List<VoiceInfo> infos = SpeechManager.GetInstalledVoice();
 
             Console.WriteLine("\n\n");
 
-            if (SpeechManager.SelectInstalledVoice("en-GB"))
+            /*if (SpeechManager.SelectInstalledVoice("en-GB"))
             {
                 SpeechManager.Speak("I love you!");
             }
@@ -58,16 +58,34 @@ namespace speechRecoTest
             {
                 SpeechManager.Speak("Te quiero !");
             }
+            if (SpeechManager.SelectInstalledVoice("pl-PL"))
+            {
+                SpeechManager.Speak("Kocham cię !");
+            }*/
 
             //Keyboard.ShortcutKeys(new Keys[] { Keys.P });
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
             SpeechManager.Start();
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+            char keychar = pressedKey.KeyChar;
+            do
+            {
+                pressedKey = Console.ReadKey(true);
+                keychar = pressedKey.KeyChar;
+                Console.WriteLine("You pressed '{0}'", keychar);
+
+            } while (!keychar.Equals('q'));
+
+            SpeechManager.Stop();
+
+            /*Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
-            SpeechManager.Start();
+            Console.WriteLine("Speak in English, say \"exit\" to quit");
+            SpeechManager.Start();*/
         }
     }
 }
