@@ -35,7 +35,6 @@ namespace speechRecoTest
         static SpeechRecognitionEngine _recognizer;
         static SpeechSynthesizer _synthesizer;
 
-        static int culture;
         static ManualResetEvent manualResetEvent = null;
 
         static SpeechManager()
@@ -146,6 +145,9 @@ namespace speechRecoTest
             {
                 SpeechManager.Speak("Te quiero !");
             }
+
+            Keyboard.ShortcutKeys(new Keys[] { Keys.P });
+
         }
     }
 }
