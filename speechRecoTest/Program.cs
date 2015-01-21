@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using InputManager;
 using System.Globalization;
 using System.Threading;
+using System.Speech.Recognition;
 
 
 namespace speechRecoTest
@@ -68,7 +69,7 @@ namespace speechRecoTest
             Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
             Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
-            SpeechManager.Start();
+            SpeechManager.Start(HandleSpeechRecognized);
 
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
             char keychar = pressedKey.KeyChar;
@@ -86,6 +87,12 @@ namespace speechRecoTest
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             Console.WriteLine("Speak in English, say \"exit\" to quit");
             SpeechManager.Start();*/
+        }
+
+        static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            Console.WriteLine("You said: " + e.Result.Text);
+            //Speak(e.Result.Text);
         }
     }
 }

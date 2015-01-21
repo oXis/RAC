@@ -7,9 +7,11 @@ using System.Threading;
 
 class SpeechManager
 {
-    static SpeechRecognitionEngine _recognizer = null;
-    static SpeechSynthesizer _synthesizer = null;
-    static CultureInfo _culture = null;
+    static private SpeechRecognitionEngine _recognizer = null;
+    static private SpeechSynthesizer _synthesizer = null;
+    static private CultureInfo _culture = null;
+
+    public delegate void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e);
 
     static SpeechManager()
     {
@@ -17,7 +19,7 @@ class SpeechManager
     }
 
     #region SpeechRecognitionEngine
-    public static void Start()
+    public static void Start(HandleSpeechRecognized f)
     {
         _culture = Thread.CurrentThread.CurrentCulture;
 
@@ -26,7 +28,7 @@ class SpeechManager
         LoadDictationGrammar();
         LoadGammar();
 
-        _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(HandleSpeechRecognized);
+        _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(f);
         _recognizer.SetInputToDefaultAudioDevice();
         _recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
@@ -40,12 +42,12 @@ class SpeechManager
         }
     }
 
-    static void LoadDictationGrammar()
+    static private void LoadDictationGrammar()
     {
         _recognizer.LoadGrammar(new DictationGrammar());
     }
 
-    static void LoadGammar()
+    static private void LoadGammar()
     {
         GrammarBuilder gb = new GrammarBuilder();
         gb.Culture = _culture;
@@ -53,11 +55,11 @@ class SpeechManager
         _recognizer.LoadGrammar(new Grammar(gb));
     }
 
-    static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+    /*static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
     {
         Console.WriteLine("You said: " + e.Result.Text);
         //Speak(e.Result.Text);
-    }
+    }*/
     #endregion SpeechRecognitionEngine
 
     #region SpeechSynthesizer
@@ -137,7 +139,7 @@ class SpeechManager
         return infos;
     }
 
-    private static void OutputVoiceInfo(VoiceInfo info)
+    static private void OutputVoiceInfo(VoiceInfo info)
     {
         Console.WriteLine("  Name: {0}, culture: {1}, gender: {2}, age: {3}.",
           info.Name, info.Culture, info.Gender, info.Age);
