@@ -11,5 +11,16 @@ namespace speechRecoTest
     /// </summary>
     class Action
     {
+        private string _text;
+
+        public Action(string text)
+        {
+            _text = text;
+        }
+        public bool Perform()
+        {
+            Console.WriteLine(_text);
+            return true;
+        }
     }
 }

@@ -46,22 +46,30 @@ namespace speechRecoTest
 
             //Keyboard.ShortcutKeys(new Keys[] { Keys.P });
 
-            /*
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
-            Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
-            SpeechManager.Start(HandleSpeechRecognized);
-            */
+            CommandManager cmdMan = new CommandManager();
 
-            Action action = new Action();
-            Command cmd = new Command(new List<string> {"increase", "speed"}, ref action);
-            if (cmd.Matches("Please, can you increase the speed."))
+            cmdMan.Add(new Command("boost", new Action("Exec: boost")));
+            
+            List<CommandManager> cmdList = new List<CommandManager>();
+            cmdList.Add(new Command(new List<string> { "speed" }, new Action("Exec: decrease speed")));
+            cmdList.Add(new Command(new List<string> { "front", "shield" }, new Action("Exec: decrease front shield")));
+            cmdList.Add(new Command(new List<string> { "back", "shield" }, new Action("Exec: decrease back shield")));
+
+            List<CommandManager> cmdList2 = new List<CommandManager>();
+            cmdList2.Add(new Command(new List<string> { "speed" }, new Action("Exec: increase speed")));
+            cmdList2.Add(new Command(new List<string> { "front", "shield" }, new Action("Exec: increase front shield")));
+            cmdList2.Add(new Command(new List<string> { "back", "shield" }, new Action("Exec: increase back shield")));
+
+            cmdMan.Add(new CommandManager(cmdList, new List<string> { "decrease"}));
+            cmdMan.Add(new CommandManager(cmdList2, new List<string> { "increase"}));
+            
+            if (cmdMan.Exec("Please, can you decrease the front shield and increase the speed. I want a boost also."))
             {
                 Console.Write("Ok!\n");
             }
             else
             {
-                Console.Write("Not OK!\n");
+                Console.Write("Not Ok!\n");
             }
 
             /*
@@ -82,8 +90,12 @@ namespace speechRecoTest
             Thread.Sleep(1500);
             cmd2.Play();
             */
-            
             /*
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
+            SpeechManager.Start(HandleSpeechRecognized);
+
             ConsoleKeyInfo pressedKey;
             char keychar;
             do
@@ -91,15 +103,10 @@ namespace speechRecoTest
                 pressedKey = Console.ReadKey(true);
                 keychar = pressedKey.KeyChar;
                 Console.WriteLine("You pressed '{0}'", keychar);
-                if (keychar.Equals('s'))
-                {
-                    cmd.Stop();
-                    cmd2.Stop();
-                }
-            
             } while (!keychar.Equals('q'));
+            
+            SpeechManager.Stop();
             */
-            //SpeechManager.Stop();
             
 
         }

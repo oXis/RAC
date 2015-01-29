@@ -12,6 +12,10 @@ namespace speechRecoTest
     /// </summary>
     class CommandManager
     {
+        /// <summary>
+        /// Contain the leaf. Each Command can be a node or a terminal node.
+        /// </summary>
+        private List<CommandManager> _commandList = new List<CommandManager>();
 
         /// <summary>
         /// List of words. Private, see _word.
@@ -26,6 +30,27 @@ namespace speechRecoTest
         protected string _regex;
 
         /// <summary>
+        /// Add a Command Object to the CommandManager
+        /// </summary>
+        /// <param name="commandManager">Command Object to be added</param>
+        public void Add(CommandManager commandManager)
+        {
+            _commandList.Add(commandManager);
+        }
+
+        /// <summary>
+        /// Add a list of Command Object to the CommandManager
+        /// </summary>
+        /// <param name="commandManagerList">List of Command Object to be added</param>
+        public void Add(List<CommandManager> commandManagerList)
+        {
+            foreach (CommandManager commandManager in commandManagerList)
+            {
+                _commandList.Add(commandManager);
+            }
+        }
+
+        /// <summary>
         /// List of words, update the regex if modified.
         /// </summary>
         public List<string> _words
@@ -38,7 +63,6 @@ namespace speechRecoTest
             {
                 _Words = value;
                 UpdateRegex();
-
             }
         }
 
@@ -59,7 +83,7 @@ namespace speechRecoTest
         /// </summary>
         public CommandManager()
         {
-        
+            
         }
 
         /// <summary>
@@ -71,6 +95,16 @@ namespace speechRecoTest
         {
             _words = words;
         }
+        public CommandManager(CommandManager commandManager, List<string> words)
+        {
+            this.Add(commandManager);
+            _words = words;
+        }
+        public CommandManager(List<CommandManager> commandManagerList, List<string> words)
+        {
+            this.Add(commandManagerList);
+            _words = words;
+        }
 
         /// <summary>
         /// Constructor.
@@ -79,6 +113,16 @@ namespace speechRecoTest
         /// <param name="command">Command for the grammar</param>
         public CommandManager(string command)
         {
+            _command = command;
+        }
+        public CommandManager(CommandManager commandManager, string command)
+        {
+            this.Add(commandManager);
+            _command = command;
+        }
+        public CommandManager(List<CommandManager> commandManagerList, string command)
+        {
+            this.Add(commandManagerList);
             _command = command;
         }
 
@@ -93,28 +137,84 @@ namespace speechRecoTest
             _words = words;
             _command = command;
         }
+        public CommandManager(CommandManager commandManager, List<string> words, string command)
+        {
+            this.Add(commandManager);
+            _words = words;
+            _command = command;
+        }
+        public CommandManager(List<CommandManager> commandManagerList, List<string> words, string command)
+        {
+            this.Add(commandManagerList);
+            _command = command;
+        }
+
+        public bool Exec(string sentence)
+        {
+            bool did_something = false;
+            string[] texts = sentence.Split(new string[] {"and", ",", "et", "."}, StringSplitOptions.None);
+
+            foreach (string text in texts)
+            {
+                if (Perform(text))
+                {
+                    did_something = true;
+                }
+            }
+
+            return did_something;
+        }
 
         /// <summary>
         /// Does the text match the regex?
         /// </summary>
         /// <param name="text">Text recognised</param>
         /// <returns>True is recognised</returns>
-        public bool Matches(string text)
+        protected bool Matches(string text)
         {
+            bool ret = true;
+
+            if (_command != null)
+            {
+                if (Regex.Matches(text, _command).Count > 0)
+                {
+                    return true;
+                }
+
+                ret = false;
+            }
+
             if (_words != null)
             {
                 if (Regex.Matches(text, _regex).Count > 0)
                 {
                     return true;
                 }
+
+                ret =  false;
             }
 
-            if (Regex.Matches(text, _command).Count > 0)
+            return ret;
+        }
+
+        protected virtual bool Perform(string text)
+        {
+            bool did_something = false;
+
+            if (!Matches(text))
             {
-                return true;
+                return did_something;
             }
 
-            return false;
+            foreach (CommandManager cmdMan in _commandList)
+            {
+                if (cmdMan.Perform(text))
+                {
+                   did_something =  true;
+                }
+            }
+
+            return did_something;
         }
 
         /// <summary>
