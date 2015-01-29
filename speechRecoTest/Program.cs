@@ -11,6 +11,7 @@ using InputManager;
 using System.Globalization;
 using System.Threading;
 using System.Speech.Recognition;
+using System.Diagnostics;
 
 
 namespace speechRecoTest
@@ -52,24 +53,24 @@ namespace speechRecoTest
             SpeechManager.Start(HandleSpeechRecognized);
             */
 
-            Command cmd = new Command(new List<string> {"caca", "speed"});
+            Action action = new Action();
+            Command cmd = new Command(new List<string> {"increase", "speed"}, ref action);
             if (cmd.Matches("Please, can you increase the speed."))
             {
                 Console.Write("Ok!\n");
-                Console.Write(cmd._Regex);
             }
             else
             {
                 Console.Write("Not OK!\n");
             }
 
-            cmd._Words = new List<string> { "increase", "speed" };
-            if (cmd.Matches("Please, can you increase the speed."))
+            /*
+            Command cmd2 = new Command("increase speed", ref action);
+            if (cmd2.Matches("increase speed"))
             {
                 Console.Write("Ok!\n");
-                Console.Write(cmd._Words);
             }
-
+            */
             /*
             Command cmd = new Command();
             cmd._play = @"C:\Users\Public\Music\Sample Music\Kalimba.mp3";

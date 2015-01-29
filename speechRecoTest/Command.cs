@@ -9,133 +9,105 @@ using WMPLib;
 
 namespace speechRecoTest
 {
-    class Command
+    /// <summary>
+    /// <para>Class to manage Command. This is a terminal node.</para>
+    /// <para>Words is for building a regex with a list of word. The order is imporant.</para>
+    /// <para>Command is a simple command. It's used for the grammar.</para>
+    /// <para>Action is an object that handle command's action.</para>
+    /// <para>Answer will be spoken by your computer.</para>
+    /// <para>Play is the name of the song to be played.</para>
+    /// </summary>
+    class Command : CommandManager
     {
         /// <summary>
-        /// To play an mp3
+        /// To play an mp3. Static to avoid overlapping.
         /// </summary>
         static WMPLib.WindowsMediaPlayer _wplayer = new WMPLib.WindowsMediaPlayer();
 
         /// <summary>
-        /// List of words
+        /// Object Action. The Command exec this _action
         /// </summary>
-        private List<string> _words;
-        /// <summary>
-        /// Command for the grammar
-        /// </summary>
-        public string _command { get; set; }
+        public Action _action { get; set; }
         /// <summary>
         /// Answer for text2speech
         /// </summary>
-        public string _answer {get; set;}
+        public string _answer { get; set; }
         /// <summary>
         /// mp3 to be played
         /// </summary>
         public string _play { get; set; }
 
-        private string _regex;
-
-        /// <summary>
-        /// List of words, update the regex if modified.
-        /// </summary>
-        public List<string> _Words
-        {
-            get
-            {
-                return _words;
-            }
-            set
-            {
-                _words = value;
-                UpdateRegex();
-
-            }
-        }
-
-        /// <summary>
-        /// Return the regex.
-        /// </summary>
-        public string _Regex
-        {
-            get
-            {
-                return _regex;
-            }
-        }
-
         /// <summary>
         /// Constructor.
+        /// Default.
         /// </summary>
-        public Command()
+        public Command() : base()
         {
         
         }
 
         /// <summary>
         /// Constructor.
+        /// List of words and action.
         /// </summary>
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
-        public Command(List<string> words)
+        /// <param name="action">Action to perform</param>
+        public Command(List<string> words, ref Action action) : base(words)
         {
-            _words = words;
-            UpdateRegex();
+            _action = action;
         }
 
         /// <summary>
         /// Constructor.
+        /// Command and action
+        /// </summary>
+        /// <param name="command">Command for the grammar</param>
+        /// <param name="action">Action to perform</param>
+        public Command(string command, ref Action action) : base(command)
+        {
+            _action = action;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// List of word, command and action.
         /// </summary>
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
         /// <param name="command">Command for the grammar</param>
-        public Command(List<string> words, string command)
+        /// <param name="action">Action to perform</param>
+        public Command(List<string> words, string command, ref Action action) : base(words, command)
         {
-            _words = words;
-            _command = command;
-            UpdateRegex();
+            _action = action;
         }
 
         /// <summary>
         /// Constructor.
+        /// List of word, command, answer and action.
         /// </summary>
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
         /// <param name="command">Command for the grammar</param>
         /// <param name="answer">Answer for text2speech</param>
-        public Command(List<string> words, string command, string answer)
+        /// <param name="action">Action to perform</param>
+        public Command(List<string> words, string command, string answer, ref Action action)  : base(words, command)
         {
-            _words = words;
-            _command = command;
             _answer = answer;
-            UpdateRegex();
+            _action = action;
         }
 
         /// <summary>
         /// Constructor.
+        /// List of word, command, answer, song to play and action.
         /// </summary>
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
         /// <param name="command">Command for the grammar</param>
         /// <param name="answer">Answer for text2speech</param>
         /// <param name="play">mp3 to be played</param>
-        public Command(List<string> words, string command, string answer, string play)
+        /// <param name="action">Action to perform</param>
+        public Command(List<string> words, string command , string answer, string play, ref Action action)  : base(words, command)
         {
-            _words = words;
-            _command = command;
             _answer = answer;
             _play = play;
-            UpdateRegex();
-        }
-
-        /// <summary>
-        /// Does the text match the regex?
-        /// </summary>
-        /// <param name="text">Text recognised</param>
-        /// <returns>True is recognised</returns>
-        public bool Matches(string text)
-        {
-            MatchCollection mc = Regex.Matches(text, _regex);
-            if (mc.Count > 0)
-            {
-                return true;
-            }
-            return false;
+            _action = action;
         }
 
         /// <summary>
@@ -153,18 +125,6 @@ namespace speechRecoTest
         public void Stop()
         {
             _wplayer.controls.stop();
-        }
-
-        /// <summary>
-        /// Create the regex with the list of words.
-        /// </summary>
-        private void UpdateRegex()
-        {
-            _regex = "";
-            foreach(string word in _words)
-            {
-                _regex += @".*\b" + word;
-            }
         }
     }
 }
