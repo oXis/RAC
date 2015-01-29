@@ -32,13 +32,10 @@ namespace speechRecoTest
     {
         static void Main(string[] args)
         {
-            //Express exp = new Express();
 
             Express.showMatch("Please, can you increase the speed", @"\bincrease\b");
 
-            //Speech.Start();
-
-            SpeechManager.CheckInstalledVoice();
+            SpeechManager.PrintInstalledVoice();
             List<VoiceInfo> infos = SpeechManager.GetInstalledVoice();
 
             Console.WriteLine("\n\n");

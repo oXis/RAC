@@ -13,20 +13,33 @@ class SpeechManager
 
     public delegate void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e);
 
+    /// <summary>
+    /// Initiate the SpeechSynthesizer. You can call text2speech functions without starting the main recognition engine.
+    /// </summary>
     static SpeechManager()
     {
         _synthesizer = new SpeechSynthesizer();
     }
 
     #region SpeechRecognitionEngine
-    public static void Start(HandleSpeechRecognized f)
+
+    /// <summary>
+    /// Start the speech recognition engine, load the dictation grammar and the grammar. Set the callback for SpeechRecognised.
+    /// </summary>
+    /// <param name="f">callback for SpeechRecognised</param>
+    /// <param name="words">grammar</param>
+    public static void Start(HandleSpeechRecognized f, List<string> words = null)
     {
         _culture = Thread.CurrentThread.CurrentCulture;
 
         _recognizer = new SpeechRecognitionEngine(_culture);
 
         LoadDictationGrammar();
-        LoadGammar();
+
+        if (words != null)
+        {
+            LoadGammar(words);
+        }
 
         _recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(f);
         _recognizer.SetInputToDefaultAudioDevice();
@@ -34,6 +47,9 @@ class SpeechManager
 
     }
 
+    /// <summary>
+    /// Stop the speech recognition engine.
+    /// </summary>
     public static void Stop()
     {
         if (_recognizer != null)
@@ -42,33 +58,54 @@ class SpeechManager
         }
     }
 
+    /// <summary>
+    /// Load the dicatation grammar.
+    /// </summary>
     static private void LoadDictationGrammar()
     {
         _recognizer.LoadGrammar(new DictationGrammar());
     }
 
-    static private void LoadGammar()
+    /// <summary>
+    /// Load the grammar contained in words.
+    /// </summary>
+    /// <param name="words">List of word to load into the grammar builder</param>
+    static private void LoadGammar(List<string> words)
     {
         GrammarBuilder gb = new GrammarBuilder();
         gb.Culture = _culture;
-        gb.Append("exit");
+        foreach (string word in words)
+        {
+            gb.Append(word);
+        }
         _recognizer.LoadGrammar(new Grammar(gb));
     }
 
-    /*static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+    /*
+    static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
     {
         Console.WriteLine("You said: " + e.Result.Text);
         //Speak(e.Result.Text);
-    }*/
+    }
+    */
+
     #endregion SpeechRecognitionEngine
 
     #region SpeechSynthesizer
+    /// <summary>
+    /// Text2Speech function.
+    /// </summary>
+    /// <param name="sentence">String to be spoken.</param>
     public static void Speak(string sentence)
     {
         _synthesizer.Speak(sentence);
     }
 
-    public static int CheckInstalledVoice()
+    /// <summary>
+    /// Print all the installed voices in stdout.
+    /// </summary>
+    /// <returns>Number of voices</returns>
+    public static int PrintInstalledVoice()
     {
         List<VoiceInfo> infos = new List<VoiceInfo>();
 
@@ -81,6 +118,11 @@ class SpeechManager
         return infos.Count;
     }
 
+    /// <summary>
+    /// Select an installed voice.
+    /// </summary>
+    /// <param name="i">default 0, select the voice number i.</param>
+    /// <returns>True if the voice i can be selected, false otherwise.</returns>
     public static bool SelectInstalledVoice(int i = 0)
     {
         List<VoiceInfo> infos = new List<VoiceInfo>();
@@ -101,6 +143,12 @@ class SpeechManager
         return false;
     }
 
+    /// <summary>
+    /// Select an installed voice, with the Culture parameter.
+    /// </summary>
+    /// <param name="culture">Can be en-US, en-GB, fr-FR. Depends on installed culture.</param>
+    /// <param name="i">default 0, select the voice number i.</param>
+    /// <returns>True if the voice i can be selected, false otherwise.</returns>
     public static bool SelectInstalledVoice(string culture, int i = 0)
     {
         List<VoiceInfo> infos = new List<VoiceInfo>();
@@ -121,11 +169,19 @@ class SpeechManager
         return false;
     }
 
+    /// <summary>
+    /// Select installed voice based on voice info
+    /// </summary>
+    /// <param name="info">Voice info.</param>
     public static void SelectInstalledVoice(VoiceInfo info)
     {
         _synthesizer.SelectVoice(info.Name);
     }
 
+    /// <summary>
+    /// Return the list of installed voices.
+    /// </summary>
+    /// <returns>List of voice</returns>
     public static List<VoiceInfo> GetInstalledVoice()
     {
         List<VoiceInfo> infos = new List<VoiceInfo>();
@@ -139,6 +195,10 @@ class SpeechManager
         return infos;
     }
 
+    /// <summary>
+    /// Print all infos in stdout.
+    /// </summary>
+    /// <param name="info">Voice info</param>
     static private void OutputVoiceInfo(VoiceInfo info)
     {
         Console.WriteLine("  Name: {0}, culture: {1}, gender: {2}, age: {3}.",
