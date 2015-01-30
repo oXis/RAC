@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using WMPLib;
 
@@ -135,6 +136,16 @@ namespace speechRecoTest
         {
             if (this.Matches(text))
             {
+                if (_answer != null)
+                {
+                    SpeechManager.Speak(_answer);
+                }
+
+                if (_play != null)
+                {
+                    Play();
+                }
+
                 return _action.Perform();
             }
 

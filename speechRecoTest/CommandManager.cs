@@ -241,10 +241,13 @@ namespace speechRecoTest
         /// </summary>
         protected void UpdateRegex()
         {
-            _regex = "";
-            foreach(string word in _words)
+            if (_words != null)
             {
-                _regex += @".*\b" + word;
+                _regex = "";
+                foreach (string word in _words)
+                {
+                    _regex += @".*\b" + word;
+                }
             }
         }
     }

@@ -48,15 +48,15 @@ namespace speechRecoTest
 
             CommandManager cmdMan = new CommandManager();
 
-            cmdMan.Add(new Command("boost", new Action("Exec: boost")));
+            cmdMan.Add(new Command(null, "boost", "Powa!" ,new Action("Exec: boost")));
             
             List<CommandManager> cmdList = new List<CommandManager>();
             cmdList.Add(new Command(new List<string> { "speed" }, new Action("Exec: decrease speed")));
-            cmdList.Add(new Command(new List<string> { "front", "shield" }, new Action("Exec: decrease front shield")));
+            cmdList.Add(new Command(new List<string> { "front", "shield" }, null, "I'm decrasing the frint shield", new Action("Exec: decrease front shield")));
             cmdList.Add(new Command(new List<string> { "back", "shield" }, new Action("Exec: decrease back shield")));
 
             List<CommandManager> cmdList2 = new List<CommandManager>();
-            cmdList2.Add(new Command(new List<string> { "speed" }, new Action("Exec: increase speed")));
+            cmdList2.Add(new Command(new List<string> { "speed" }, null, "I'm increasing the speed", new Action("Exec: increase speed")));
             cmdList2.Add(new Command(new List<string> { "front", "shield" }, new Action("Exec: increase front shield")));
             cmdList2.Add(new Command(new List<string> { "back", "shield" }, new Action("Exec: increase back shield")));
 
