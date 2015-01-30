@@ -217,6 +217,25 @@ namespace speechRecoTest
             return did_something;
         }
 
+        protected virtual bool PerformFirst(string text)
+        {
+
+            if (!Matches(text))
+            {
+                return false;
+            }
+
+            foreach (CommandManager cmdMan in _commandList)
+            {
+                if (cmdMan.Perform(text))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Create the regex with the list of words.
         /// </summary>
