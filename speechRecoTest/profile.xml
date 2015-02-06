@@ -1,0 +1,73 @@
+<profile>
+    <node>
+        <words>increase</words>
+        <final>
+            <words>speed</words>
+            <command>increase speed</command>
+            <answer>speed increased</answer>
+            <play>voice_speed.mp3</play>
+            <action>
+                <key>C</key>
+            </action>
+        </final>
+        <node>
+            <words>shield</words>
+            <final>
+                <words>front</words>
+                <command>increase front shield</command>
+                <play>voice_shield.mp3</play>
+                <action>
+                    <key>A</key>
+                </action>
+            </final>
+            <final>
+                <words>back</words>
+                <command>increase back shield</command>
+                <play>voice_shield.mp3</play>
+                <action>
+                    <key>B</key>
+                </action>
+            </final>
+        </node>
+    </node>
+    <final>
+        <words>boost</words>
+        <command>boost</command>
+        <answer>bouyaka</answer>
+        <action>
+            <key>D</key>
+        </action>
+    </final>
+</profile>
+
+<!--
+You have to say the <command> exactly to trigger the action.
+<words> uses regular expression to trigger the action. If <words> are found in the sentence, the action is triggered.
+
+##Contains <words>
+##Contains several <final> OR/AND <node>
+<node>
+    <words></words>
+    <node></node>
+    <final></final>
+</node>
+##
+
+##Contains <words> AND <command>. <command> represent the quick sentence used to trigger the action.
+##Contains <answer> OR/AND <play>
+##<action> is OPTIONNAL
+<final>
+    <words></words>
+    <command></command>
+    <answer></answer>
+    <play></play>
+    <action></action>
+</final>
+##
+
+##Contains <exec> OR <key>
+<action>
+    <key></key>
+    <exec></exec>
+</action>
+--!>
