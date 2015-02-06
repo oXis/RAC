@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Recognition;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -152,7 +153,7 @@ namespace speechRecoTest
         public bool Exec(string sentence)
         {
             bool did_something = false;
-            string[] texts = sentence.Split(new string[] {"and", ",", "et", "."}, StringSplitOptions.None);
+            string[] texts = sentence.ToLower().Split(new string[] {"and", ",", "et", "."}, StringSplitOptions.None);
 
             foreach (string text in texts)
             {
@@ -163,6 +164,12 @@ namespace speechRecoTest
             }
 
             return did_something;
+        }
+
+        public void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            Console.WriteLine("You said: " + e.Result.Text);
+            Exec(e.Result.Text);
         }
 
         /// <summary>
@@ -210,7 +217,7 @@ namespace speechRecoTest
             {
                 if (cmdMan.Perform(text))
                 {
-                   did_something =  true;
+                   did_something = true;
                 }
             }
 

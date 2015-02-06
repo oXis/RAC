@@ -17,6 +17,7 @@ namespace speechRecoTest
         {
             _text = text;
         }
+
         public bool Perform()
         {
             Console.WriteLine(_text);

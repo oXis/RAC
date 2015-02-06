@@ -11,6 +11,8 @@ class SpeechManager
     static private SpeechSynthesizer _synthesizer = null;
     static private CultureInfo _culture = null;
 
+    static private List<string> _sentenceBuffer = new List<string>();
+
     public delegate void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e);
 
     /// <summary>
@@ -92,13 +94,13 @@ class SpeechManager
     #endregion SpeechRecognitionEngine
 
     #region SpeechSynthesizer
+
     /// <summary>
     /// Text2Speech function.
     /// </summary>
-    /// <param name="sentence">String to be spoken.</param>
     public static void Speak(string sentence)
     {
-        _synthesizer.Speak(sentence);
+        _synthesizer.SpeakAsync(sentence);
     }
 
     /// <summary>

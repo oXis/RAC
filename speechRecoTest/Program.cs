@@ -16,19 +16,6 @@ using System.Diagnostics;
 
 namespace speechRecoTest
 {
-    class Express
-    {
-        public static void showMatch(string text, string expr)
-        {
-            Console.WriteLine("The Expression: " + expr);
-            MatchCollection mc = Regex.Matches(text, expr);
-            foreach (Match m in mc)
-            {
-                Console.WriteLine(m);
-            }
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -62,15 +49,15 @@ namespace speechRecoTest
 
             cmdMan.Add(new CommandManager(cmdList, new List<string> { "decrease"}));
             cmdMan.Add(new CommandManager(cmdList2, new List<string> { "increase"}));
-            
-            if (cmdMan.Exec("Please, can you decrease the front shield and increase the speed. I want a boost also."))
+
+            /*if (cmdMan.Exec("Please, can you decrease the front shield and increase the speed."))
             {
                 Console.Write("Ok!\n");
             }
             else
             {
                 Console.Write("Not Ok!\n");
-            }
+            }*/
 
             /*
             Command cmd2 = new Command("increase speed", ref action);
@@ -90,12 +77,13 @@ namespace speechRecoTest
             Thread.Sleep(1500);
             cmd2.Play();
             */
-            /*
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
-            SpeechManager.Start(HandleSpeechRecognized);
-
+            SpeechManager.Start(cmdMan.HandleSpeechRecognized, new List<string> {"shield"});
+            
+            
             ConsoleKeyInfo pressedKey;
             char keychar;
             do
@@ -106,9 +94,6 @@ namespace speechRecoTest
             } while (!keychar.Equals('q'));
             
             SpeechManager.Stop();
-            */
-            
-
         }
 
         static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
