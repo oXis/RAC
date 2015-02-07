@@ -79,6 +79,7 @@ class SpeechManager
         foreach (string word in words)
         {
             gb.Append(word);
+            gb.AppendDictation(word);
         }
         _recognizer.LoadGrammar(new Grammar(gb));
     }
