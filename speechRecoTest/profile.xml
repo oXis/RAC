@@ -56,7 +56,8 @@
     <command>boost</command>
     <answer>bouyaka</answer>
     <action>
-      <key>boost</key>
+      <key>A</key>
+      <modifier>crtl</modifier>
     </action>
   </final>
 </profile>
@@ -86,9 +87,10 @@ You have to say the <command> exactly to trigger the action.
 </final>
 ##
 
-##Contains <exec> OR <key>
+##Contains <exec> OR <key>. <modifier> for key modifier, CTRL, ALT, ...
 <action>
     <key></key>
+    <modifier></modifier>
     <exec></exec>
 </action>
 -->

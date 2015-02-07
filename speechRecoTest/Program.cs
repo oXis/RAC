@@ -18,6 +18,7 @@ namespace speechRecoTest
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
 
@@ -52,16 +53,22 @@ namespace speechRecoTest
             */
 
             ProfileParser profile = new ProfileParser("../../profile.xml");
+            if (!profile.Parse())
+            {
+                Console.WriteLine("caca");
+                System.Environment.Exit(-10);
+            }
+
             CommandManager cmd = profile.GetCmd();
 
-            if (cmd.Exec("Please, can you decrease the front shield and increase the speed. Boost."))
+            /*if (cmd.Exec("Please, can you decrease the front shield and increase the speed. Boost."))
             {
                 Console.Write("Ok!\n");
             }
             else
             {
                 Console.Write("Not Ok!\n");
-            }
+            }*/
 
             SpeechManager.Start(cmd.HandleSpeechRecognized, profile.GetGrammar());
 
