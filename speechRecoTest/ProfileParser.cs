@@ -14,6 +14,10 @@ namespace speechRecoTest
         private List<string> grammar = new List<string>();
         private string _path = "profile/profile.xml";
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="path">path to the profile.</param>
         public ProfileParser(string path)
         {
             if (path != null)
@@ -22,6 +26,10 @@ namespace speechRecoTest
             }
         }
 
+        /// <summary>
+        /// Parse the profile located at _path.
+        /// </summary>
+        /// <returns>true if success</returns>
         public bool Parse()
         {
             XElement xelement;
@@ -44,11 +52,11 @@ namespace speechRecoTest
                 {
                     if (node.Name.ToString() == "node")
                     {
-                        cmdMan.Add(ParseNode(node.Elements(), "  "));
+                        cmdMan.Add(ParseNode(node.Elements()));
                     }
                     else if (node.Name.ToString() == "final")
                     {
-                        cmdMan.Add(ParseFinal(node.Elements(), "  "));
+                        cmdMan.Add(ParseFinal(node.Elements()));
                     }
                 }
 
@@ -58,20 +66,33 @@ namespace speechRecoTest
             {
                 return false;
             }
-
         }
 
+        /// <summary>
+        /// Get the CommandManager created by the parser.
+        /// </summary>
+        /// <returns>CommandManager</returns>
         public CommandManager GetCmd()
         {
             return cmdMan;
         }
 
+        /// <summary>
+        /// Get the grammar created by the parser.
+        /// </summary>
+        /// <returns>Grammar created</returns>
         public List<string> GetGrammar()
         {
             return grammar;
         }
 
-        private CommandManager ParseNode(IEnumerable<XElement> nodes, string ind = "")
+
+        /// <summary>
+        /// Parse a node, i.e a CommandManager class.
+        /// </summary>
+        /// <param name="nodes">XML node</param>
+        /// <returns>CommandManager created</returns>
+        private CommandManager ParseNode(IEnumerable<XElement> nodes)
         {
             CommandManager cmdList = new CommandManager();
 
@@ -82,10 +103,10 @@ namespace speechRecoTest
                 switch (node.Name.ToString())
                 {
                     case "node":
-                        cmdList.Add(ParseNode(node.Elements(), ind + "  "));
+                        cmdList.Add(ParseNode(node.Elements()));
                         break;
                     case "final":
-                        cmdList.Add(ParseFinal(node.Elements(), ind + "  "));
+                        cmdList.Add(ParseFinal(node.Elements()));
                         break;
                     case "words":
                         words = node.Value.ToLower().Split(new string[] { " " }, StringSplitOptions.None).OfType<string>().ToList();
@@ -104,7 +125,12 @@ namespace speechRecoTest
             return new CommandManager(cmdList, words);
         }
 
-        private Command ParseFinal(IEnumerable<XElement> nodes, string ind = "")
+        /// <summary>
+        /// Parse a final node, i.e a Command class.
+        /// </summary>
+        /// <param name="nodes">XML node</param>
+        /// <returns>Command created</returns>
+        private Command ParseFinal(IEnumerable<XElement> nodes)
         {
             List<string> words = null;
             string command = null;
@@ -130,7 +156,7 @@ namespace speechRecoTest
                         play = node.Value;
                         break;
                     case "action":
-                        action = ParseAction(node.Elements(), ind + "  ");
+                        action = ParseAction(node.Elements());
                         break;
                     default:
                         IXmlLineInfo info = node;
@@ -146,7 +172,12 @@ namespace speechRecoTest
             return new Command(words, command, answer, play, action);
         }
 
-        private Action ParseAction(IEnumerable<XElement> nodes, string ind = "")
+        /// <summary>
+        /// Parse a Action node, i.e a Action class.
+        /// </summary>
+        /// <param name="nodes">XML node</param>
+        /// <returns>Action created</returns>
+        private Action ParseAction(IEnumerable<XElement> nodes)
         {
             string key = null;
             string keyMod = null;
@@ -179,6 +210,9 @@ namespace speechRecoTest
             return new Action(key);
         }
 
+        /// <summary>
+        /// Exception in case of error while parsing.
+        /// </summary>
         [SerializableAttribute] //remove the warning
         private class ParseErrorException : Exception
         {

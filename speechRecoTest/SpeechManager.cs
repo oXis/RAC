@@ -76,6 +76,7 @@ class SpeechManager
     {
         GrammarBuilder gb = new GrammarBuilder();
         gb.Culture = _culture;
+
         foreach (string word in words)
         {
             gb.Append(word);

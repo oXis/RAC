@@ -150,6 +150,11 @@ namespace speechRecoTest
             _command = command;
         }
 
+        /// <summary>
+        /// Entry point for CommandManager.
+        /// </summary>
+        /// <param name="sentence">This sentence is digested by the decesion tree.</param>
+        /// <returns>true if recognised</returns>
         public bool Exec(string sentence)
         {
             bool did_something = false;
@@ -166,6 +171,11 @@ namespace speechRecoTest
             return did_something;
         }
 
+        /// <summary>
+        /// Callback for the SpeechManager.
+        /// </summary>
+        /// <param name="sender">SpeechEngine</param>
+        /// <param name="e">Recognised speech</param>
         public void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("You said: " + e.Result.Text);
@@ -176,7 +186,7 @@ namespace speechRecoTest
         /// Does the text match the regex?
         /// </summary>
         /// <param name="text">Text recognised</param>
-        /// <returns>True is recognised</returns>
+        /// <returns>True if recognised</returns>
         protected bool Matches(string text)
         {
             bool ret = true;
@@ -204,6 +214,11 @@ namespace speechRecoTest
             return ret;
         }
 
+        /// <summary>
+        /// Decision tree start here.
+        /// </summary>
+        /// <param name="text">sentence to be analysed</param>
+        /// <returns>true if command found</returns>
         protected virtual bool Perform(string text)
         {
             bool did_something = false;
@@ -224,6 +239,11 @@ namespace speechRecoTest
             return did_something;
         }
 
+        /// <summary>
+        /// Same as Perform but excecute the first command found.
+        /// </summary>
+        /// <param name="text">sentence to be analysed</param>
+        /// <returns>true if command found</returns>
         protected virtual bool PerformFirst(string text)
         {
 
