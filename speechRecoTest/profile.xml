@@ -1,43 +1,64 @@
 <profile>
-    <node>
-        <words>increase</words>
-        <final>
-            <words>speed</words>
-            <command>increase speed</command>
-            <answer>speed increased</answer>
-            <play>voice_speed.mp3</play>
-            <action>
-                <key>C</key>
-            </action>
-        </final>
-        <node>
-            <words>shield</words>
-            <final>
-                <words>front</words>
-                <command>increase front shield</command>
-                <play>voice_shield.mp3</play>
-                <action>
-                    <key>A</key>
-                </action>
-            </final>
-            <final>
-                <words>back</words>
-                <command>increase back shield</command>
-                <play>voice_shield.mp3</play>
-                <action>
-                    <key>B</key>
-                </action>
-            </final>
-        </node>
-    </node>
+  <node>
+    <words>increase</words>
     <final>
-        <words>boost</words>
-        <command>boost</command>
-        <answer>bouyaka</answer>
-        <action>
-            <key>D</key>
-        </action>
+      <words>speed</words>
+      <command>increase speed</command>
+      <answer>speed increased</answer>
+      <action>
+        <key>speed increased</key>
+      </action>
     </final>
+    <node>
+      <words>shield</words>
+      <final>
+        <words>front</words>
+        <command>increase front shield</command>
+        <answer>front shield increased</answer>
+        <action>
+          <key>front shield increased</key>
+        </action>
+      </final>
+      <final>
+        <words>back</words>
+        <command>increase back shield</command>
+        <answer>back shield increased</answer>
+        <action>
+          <key>back shield increased</key>
+        </action>
+      </final>
+    </node>
+  </node>
+  <node>
+    <words>decrease</words>
+    <node>
+      <words>shield</words>
+      <final>
+        <words>front</words>
+        <command>decrease front shield</command>
+        <answer>front shield decreased</answer>
+        <action>
+          <key>front shield decreased</key>
+        </action>
+      </final>
+      <final>
+        <words>back</words>
+        <command>decrease back shield</command>
+        <answer>back shield decreased</answer>
+        <action>
+          <key>back shield decreased</key>
+        </action>
+      </final>
+    </node>
+  </node>
+  <final>
+    <words>boost</words>
+    <command>boost</command>
+    <answer>bouyaka</answer>
+    <action>
+      <key>boost</key>
+    </action>
+  </final>
 </profile>
 
 <!--
@@ -70,4 +91,4 @@ You have to say the <command> exactly to trigger the action.
     <key></key>
     <exec></exec>
 </action>
---!>
+-->

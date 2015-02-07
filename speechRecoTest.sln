@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "speechRecoTest", "speechRecoTest\speechRecoTest.csproj", "{8DC3740D-5A6F-4D61-B283-B7A4EBD18F35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EEC9F44A-2112-40F4-8202-877B50B6471C}"
+	ProjectSection(SolutionItems) = preProject
+		speechRecoTest\profile.xml = speechRecoTest\profile.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

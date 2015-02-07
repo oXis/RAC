@@ -33,7 +33,7 @@ namespace speechRecoTest
 
             //Keyboard.ShortcutKeys(new Keys[] { Keys.P });
 
-            CommandManager cmdMan = new CommandManager();
+            /*CommandManager cmdMan = new CommandManager();
 
             cmdMan.Add(new Command(null, "boost", "Powa!" ,new Action("Exec: boost")));
             
@@ -49,15 +49,21 @@ namespace speechRecoTest
 
             cmdMan.Add(new CommandManager(cmdList, new List<string> { "decrease"}));
             cmdMan.Add(new CommandManager(cmdList2, new List<string> { "increase"}));
+            */
 
-            /*if (cmdMan.Exec("Please, can you decrease the front shield and increase the speed."))
+            ProfileParser profile = new ProfileParser("../../profile.xml");
+            CommandManager cmd = profile.GetCmd();
+
+            if (cmd.Exec("Please, can you decrease the front shield and increase the speed. Boost."))
             {
                 Console.Write("Ok!\n");
             }
             else
             {
                 Console.Write("Not Ok!\n");
-            }*/
+            }
+
+            SpeechManager.Start(cmd.HandleSpeechRecognized, profile.GetGrammar());
 
             /*
             Command cmd2 = new Command("increase speed", ref action);
@@ -76,14 +82,14 @@ namespace speechRecoTest
             cmd.Play();
             Thread.Sleep(1500);
             cmd2.Play();
-            */
+            
             
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             Console.WriteLine("Parle en Français, dire \"exit\" pour quiter");
             SpeechManager.Start(cmdMan.HandleSpeechRecognized, new List<string> {"shield"});
-            
-            
+            */
+
             ConsoleKeyInfo pressedKey;
             char keychar;
             do
@@ -92,7 +98,7 @@ namespace speechRecoTest
                 keychar = pressedKey.KeyChar;
                 Console.WriteLine("You pressed '{0}'", keychar);
             } while (!keychar.Equals('q'));
-            
+
             SpeechManager.Stop();
         }
 
