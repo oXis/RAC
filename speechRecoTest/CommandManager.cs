@@ -151,20 +151,30 @@ namespace speechRecoTest
         }
 
         /// <summary>
-        /// Entry point for CommandManager.
+        /// Entry point for CommandManager. Chose if you can send severals command with one sentence.
         /// </summary>
         /// <param name="sentence">This sentence is digested by the decesion tree.</param>
         /// <returns>true if recognised</returns>
-        public bool Exec(string sentence)
+        public bool Exec(string sentence, bool first=true)
         {
             bool did_something = false;
             string[] texts = sentence.ToLower().Split(new string[] {"and", ",", "et", "."}, StringSplitOptions.None);
 
             foreach (string text in texts)
             {
-                if (Perform(text))
+                if (first)
                 {
-                    did_something = true;
+                    if (PerformFirst(text))
+                    {
+                        did_something = true;
+                    }
+                }
+                else
+                {
+                    if (Perform(text))
+                    {
+                        did_something = true;
+                    }
                 }
             }
 
@@ -254,7 +264,7 @@ namespace speechRecoTest
 
             foreach (CommandManager cmdMan in _commandList)
             {
-                if (cmdMan.Perform(text))
+                if (cmdMan.PerformFirst(text))
                 {
                     return true;
                 }

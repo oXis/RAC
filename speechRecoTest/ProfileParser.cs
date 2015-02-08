@@ -136,7 +136,7 @@ namespace speechRecoTest
             string command = null;
             string answer = null;
             string play = null;
-            Action action = null;
+            ActionManager action = null;
 
             foreach (XElement node in nodes)
             {
@@ -177,53 +177,76 @@ namespace speechRecoTest
         /// </summary>
         /// <param name="nodes">XML node</param>
         /// <returns>Action created</returns>
-        private Action ParseAction(IEnumerable<XElement> nodes)
+        private ActionManager ParseAction(IEnumerable<XElement> nodes)
         {
-            string key = null;
-            string keyMod = null;
-            string exec = null;
+            Keys key = Keys.None;
+            Keys keyMod = Keys.None;
 
             foreach (XElement node in nodes)
             {
+                IXmlLineInfo info = node;
                 switch (node.Name.ToString())
                 {
                     case "key":
-                        key = node.Value;
+                        try
+                        {
+                            key = (Keys)Enum.Parse(typeof(Keys), node.Value, true);
+                        }
+                        catch
+                        {
+                            throw new ParseErrorException("<key>" + node.Value + "</key> is not recognised as a valid key.\n Line: " + info.LineNumber, _path);
+                        }
                         break;
                     case "modifier":
-                        keyMod = node.Value;
+                        try
+                        {
+                            key = (Keys)Enum.Parse(typeof(Keys), node.Value, true);
+                        }
+                        catch
+                        {
+                            throw new ParseErrorException("<modifier>" + node.Value + "</modidifer> is not recognised as a valid key.\n Line: " + info.LineNumber, _path);
+                        }
                         break;
                     case "exec":
-                        exec = node.Value;
-                        break;
+                        return new ActionExec(node.Value);
                     default:
-                        IXmlLineInfo info = node;
                         throw new ParseErrorException("The element <" + node.Name + "> is not recognised.\n Line: " + info.LineNumber, _path);
                 }
             }
 
-            if (key == null && exec == null)
+            if (key == Keys.None)
             {
                 throw new ParseErrorException("Missing element (<key> or <exec>) in node <action>", _path);
             }
+            if (keyMod == Keys.None)
+            {
+                return new ActionKey(key);
+            }
 
-            return new Action(key);
+            return new ActionKey(key, keyMod);
+        }
+    }
+
+    /// <summary>
+    /// Exception in case of error while parsing.
+    /// </summary>
+    [SerializableAttribute] //remove the warning
+    class ParseErrorException : Exception
+    {
+        public ParseErrorException()
+        {
         }
 
-        /// <summary>
-        /// Exception in case of error while parsing.
-        /// </summary>
-        [SerializableAttribute] //remove the warning
-        private class ParseErrorException : Exception
+        public ParseErrorException(string message)
+            : base(message)
         {
-            public ParseErrorException()
-            {
-            }
-            public ParseErrorException(string message, string path)
-                : base(message)
-            {
-                MessageBox.Show(message, "Error parsing profile " + path, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show(message, "Error parsing profile", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public ParseErrorException(string message, string path)
+            : base(message)
+        {
+            MessageBox.Show(message, "Error parsing profile " + path, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

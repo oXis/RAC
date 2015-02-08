@@ -56,9 +56,9 @@ namespace speechRecoTest
             if (!profile.Parse())
             {
                 Console.WriteLine("caca");
-                System.Environment.Exit(-10);
+                System.Environment.Exit(-10);   
             }
-
+            
             CommandManager cmd = profile.GetCmd();
 
             /*if (cmd.Exec("Please, can you decrease the front shield and increase the speed. Boost."))
@@ -70,6 +70,8 @@ namespace speechRecoTest
                 Console.Write("Not Ok!\n");
             }*/
 
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             SpeechManager.Start(cmd.HandleSpeechRecognized, profile.GetGrammar());
 
             /*

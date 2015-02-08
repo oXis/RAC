@@ -28,7 +28,7 @@ namespace speechRecoTest
         /// <summary>
         /// Object Action. The Command exec this _action
         /// </summary>
-        public Action _action { get; set; }
+        public ActionManager _action { get; set; }
         /// <summary>
         /// Answer for text2speech
         /// </summary>
@@ -53,7 +53,7 @@ namespace speechRecoTest
         /// </summary>
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
         /// <param name="action">Action to perform</param>
-        public Command(List<string> words, Action action) : base(words)
+        public Command(List<string> words, ActionManager action) : base(words)
         {
             _action = action;
         }
@@ -64,7 +64,7 @@ namespace speechRecoTest
         /// </summary>
         /// <param name="command">Command for the grammar</param>
         /// <param name="action">Action to perform</param>
-        public Command(string command, Action action) : base(command)
+        public Command(string command, ActionManager action) : base(command)
         {
             _action = action;
         }
@@ -76,7 +76,7 @@ namespace speechRecoTest
         /// <param name="words">List of words for the regex. ORDER VERY IMPORTANT</param>
         /// <param name="command">Command for the grammar</param>
         /// <param name="action">Action to perform</param>
-        public Command(List<string> words, string command, Action action) : base(words, command)
+        public Command(List<string> words, string command, ActionManager action) : base(words, command)
         {
             _action = action;
         }
@@ -89,7 +89,7 @@ namespace speechRecoTest
         /// <param name="command">Command for the grammar</param>
         /// <param name="answer">Answer for text2speech</param>
         /// <param name="action">Action to perform</param>
-        public Command(List<string> words, string command, string answer, Action action)  : base(words, command)
+        public Command(List<string> words, string command, string answer, ActionManager action)  : base(words, command)
         {
             _answer = answer;
             _action = action;
@@ -104,7 +104,7 @@ namespace speechRecoTest
         /// <param name="answer">Answer for text2speech</param>
         /// <param name="play">mp3 to be played</param>
         /// <param name="action">Action to perform</param>
-        public Command(List<string> words, string command , string answer, string play, Action action)  : base(words, command)
+        public Command(List<string> words, string command , string answer, string play, ActionManager action)  : base(words, command)
         {
             _answer = answer;
             _play = play;
@@ -133,6 +133,26 @@ namespace speechRecoTest
         /// </summary>
         /// <returns>true is action performed</returns>
         protected override bool Perform(string text)
+        {
+            if (this.Matches(text))
+            {
+                if (_answer != null)
+                {
+                    SpeechManager.Speak(_answer);
+                }
+
+                if (_play != null)
+                {
+                    Play();
+                }
+
+                return _action.Perform();
+            }
+
+            return false;
+        }
+
+        protected override bool PerformFirst(string text)
         {
             if (this.Matches(text))
             {

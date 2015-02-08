@@ -47,6 +47,7 @@ class SpeechManager
         _recognizer.SetInputToDefaultAudioDevice();
         _recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
+        Console.WriteLine("Ready");
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ class SpeechManager
 
         foreach (string word in words)
         {
-            gb.Append(word);
+            //gb.Append(word);
             gb.AppendDictation(word);
         }
         _recognizer.LoadGrammar(new Grammar(gb));

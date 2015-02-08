@@ -6,7 +6,7 @@
       <command>increase speed</command>
       <answer>speed increased</answer>
       <action>
-        <key>speed increased</key>
+        <key>a</key>
       </action>
     </final>
     <node>
@@ -16,7 +16,7 @@
         <command>increase front shield</command>
         <answer>front shield increased</answer>
         <action>
-          <key>front shield increased</key>
+          <key>b</key>
         </action>
       </final>
       <final>
@@ -24,7 +24,7 @@
         <command>increase back shield</command>
         <answer>back shield increased</answer>
         <action>
-          <key>back shield increased</key>
+          <key>c</key>
         </action>
       </final>
     </node>
@@ -38,7 +38,7 @@
         <command>decrease front shield</command>
         <answer>front shield decreased</answer>
         <action>
-          <key>front shield decreased</key>
+          <key>d</key>
         </action>
       </final>
       <final>
@@ -46,18 +46,25 @@
         <command>decrease back shield</command>
         <answer>back shield decreased</answer>
         <action>
-          <key>back shield decreased</key>
+          <key>e</key>
         </action>
       </final>
     </node>
   </node>
   <final>
-    <words>boost</words>
-    <command>boost</command>
-    <answer>bouyaka</answer>
+    <words>test</words>
+    <command>test</command>
+    <answer>bye</answer>
     <action>
-      <key>A</key>
-      <modifier>crtl</modifier>
+      <exec>notepad</exec>
+    </action>
+  </final>
+  <final>
+    <words>close</words>
+    <command>close</command>
+    <answer>bye</answer>
+    <action>
+      <exec>close</exec>
     </action>
   </final>
 </profile>

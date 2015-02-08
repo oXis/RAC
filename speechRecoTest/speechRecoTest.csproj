@@ -67,9 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
+    <Compile Include="ActionExec.cs" />
+    <Compile Include="ActionKey.cs" />
+    <Compile Include="ActionManager.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandManager.cs" />
+    <Compile Include="ExecScript\ActionNotepad.cs" />
     <Compile Include="ProfileParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
