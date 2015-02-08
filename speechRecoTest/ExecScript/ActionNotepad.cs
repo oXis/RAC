@@ -19,9 +19,8 @@ namespace speechRecoTest.ExecScript
         public static bool Exec()
         {
             Process p = new Process();
-            p.StartInfo.FileName = "notepad.exe";
-            p.Start();
-            return true;
+            p.StartInfo.FileName = "notepad";
+            return p.Start();
         }
     }
 }

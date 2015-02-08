@@ -209,6 +209,8 @@ namespace speechRecoTest
                         break;
                     case "exec":
                         return new ActionExec(node.Value);
+                    case "script":
+                        return new ActionScript(node.Value);
                     default:
                         throw new ParseErrorException("The element <" + node.Name + "> is not recognised.\n Line: " + info.LineNumber, _path);
                 }

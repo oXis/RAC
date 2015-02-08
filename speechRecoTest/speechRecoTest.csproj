@@ -70,8 +70,10 @@
     <Compile Include="ActionExec.cs" />
     <Compile Include="ActionKey.cs" />
     <Compile Include="ActionManager.cs" />
+    <Compile Include="ActionScript.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandManager.cs" />
+    <Compile Include="ExecScript\ActionClose.cs" />
     <Compile Include="ExecScript\ActionNotepad.cs" />
     <Compile Include="ProfileParser.cs" />
     <Compile Include="Program.cs" />
