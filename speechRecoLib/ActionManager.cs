@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace speechRecoTest
+namespace speechRecoLib
 {
     /// <summary>
     /// Class to manage action like press key or exec bin.

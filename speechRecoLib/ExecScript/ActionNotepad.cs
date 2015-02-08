@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace speechRecoTest.ExecScript
+namespace speechRecoLib.ExecScript
 {
     /// <summary>
     /// Exemple script. Called by ActionExec.

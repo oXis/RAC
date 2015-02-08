@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace speechRecoTest
+namespace speechRecoLib
 {
     /// <summary>
     /// Command Manager. Can contain Command or other CommandManager. It's a node.
@@ -154,6 +154,7 @@ namespace speechRecoTest
         /// Entry point for CommandManager. Chose if you can send severals command with one sentence.
         /// </summary>
         /// <param name="sentence">This sentence is digested by the decesion tree.</param>
+        /// <param name="first">PerformFirst or not</param>
         /// <returns>true if recognised</returns>
         public bool Exec(string sentence, bool first=true)
         {

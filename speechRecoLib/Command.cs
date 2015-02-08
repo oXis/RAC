@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WMPLib;
 
-namespace speechRecoTest
+namespace speechRecoLib
 {
     /// <summary>
     /// <para>Class to manage Command. This is a terminal node.</para>

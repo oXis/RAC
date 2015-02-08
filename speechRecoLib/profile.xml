@@ -56,15 +56,15 @@
     <command>test</command>
     <answer>bye</answer>
     <action>
-      <exec>notepad</exec>
+      <exec>explorer</exec>
     </action>
   </final>
   <final>
-    <words>space</words>
-    <command>space</command>
+    <words>close</words>
+    <command>close</command>
     <answer>bye</answer>
     <action>
-      <key>space</key>
+      <script>closeCurrentWindow</script>
     </action>
   </final>
 </profile>
@@ -94,10 +94,12 @@ You have to say the <command> exactly to trigger the action.
 </final>
 ##
 
-##Contains <exec> OR <key>. <modifier> for key modifier, CTRL, ALT, ...
+##Contains <exec> OR <key> OR <script>. <modifier> for key modifier, CTRL, ALT, ...
+##You can launch cunstom C# script. See ActionScript and ActionNotepad.
 <action>
     <key></key>
     <modifier></modifier>
     <exec></exec>
+    <script></script>
 </action>
 -->

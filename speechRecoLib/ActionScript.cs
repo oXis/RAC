@@ -1,11 +1,11 @@
-﻿using speechRecoTest.ExecScript;
+﻿using speechRecoLib.ExecScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace speechRecoTest
+namespace speechRecoLib
 {
     class ActionScript : ActionManager
     {
@@ -14,7 +14,7 @@ namespace speechRecoTest
         /// <summary>
         /// Contructor.
         /// </summary>
-        /// <param name="exec">Name of the script.</param>
+        /// <param name="script">Name of the script.</param>
         public ActionScript(string script)
         {
             _script = script;
