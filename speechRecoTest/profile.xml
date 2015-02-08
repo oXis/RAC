@@ -60,11 +60,11 @@
     </action>
   </final>
   <final>
-    <words>close</words>
-    <command>close</command>
+    <words>space</words>
+    <command>space</command>
     <answer>bye</answer>
     <action>
-      <exec>close</exec>
+      <key>space</key>
     </action>
   </final>
 </profile>
