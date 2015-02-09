@@ -1,0 +1,105 @@
+<profile>
+  <node>
+    <words>increase</words>
+    <final>
+      <words>speed</words>
+      <command>increase speed</command>
+      <answer>speed increased</answer>
+      <action>
+        <key>a</key>
+      </action>
+    </final>
+    <node>
+      <words>shield</words>
+      <final>
+        <words>front</words>
+        <command>increase front shield</command>
+        <answer>front shield increased</answer>
+        <action>
+          <key>b</key>
+        </action>
+      </final>
+      <final>
+        <words>back</words>
+        <command>increase back shield</command>
+        <answer>back shield increased</answer>
+        <action>
+          <key>c</key>
+        </action>
+      </final>
+    </node>
+  </node>
+  <node>
+    <words>decrease</words>
+    <node>
+      <words>shield</words>
+      <final>
+        <words>front</words>
+        <command>decrease front shield</command>
+        <answer>front shield decreased</answer>
+        <action>
+          <key>d</key>
+        </action>
+      </final>
+      <final>
+        <words>back</words>
+        <command>decrease back shield</command>
+        <answer>back shield decreased</answer>
+        <action>
+          <key>e</key>
+        </action>
+      </final>
+    </node>
+  </node>
+  <final>
+    <words>test</words>
+    <command>test</command>
+    <answer>bye</answer>
+    <action>
+      <exec>explorer</exec>
+    </action>
+  </final>
+  <final>
+    <words>close</words>
+    <command>close</command>
+    <answer>bye</answer>
+    <action>
+      <script>closeCurrentWindow</script>
+    </action>
+  </final>
+</profile>
+
+<!--
+You have to say the <command> exactly to trigger the action.
+<words> uses regular expression to trigger the action. If <words> are found in the sentence, the action is triggered.
+
+##Contains <words>
+##Contains several <final> OR/AND <node>
+<node>
+    <words></words>
+    <node></node>
+    <final></final>
+</node>
+##
+
+##Contains <words> AND <command>. <command> represent the quick sentence used to trigger the action.
+##Contains <answer> OR/AND <play>
+##<action> is OPTIONNAL
+<final>
+    <words></words>
+    <command></command>
+    <answer></answer>
+    <play></play>
+    <action></action>
+</final>
+##
+
+##Contains <exec> OR <key> OR <script>. <modifier> for key modifier, CTRL, ALT, ...
+##You can launch cunstom C# script. See ActionScript and ActionNotepad.
+<action>
+    <key></key>
+    <modifier></modifier>
+    <exec></exec>
+    <script></script>
+</action>
+-->

@@ -10,7 +10,7 @@ namespace speechRecoLib.ExecScript
     /// <summary>
     /// Exemple script. Called by ActionExec.
     /// </summary>
-    static class ActionNotepad
+    public static class ActionNotepad
     {
         /// <summary>
         /// Function called by ActionExec.

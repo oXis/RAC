@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace speechRecoLib
 {
-    class ActionKey : ActionManager
+    public class ActionKey : ActionManager
     {
         private Keys _key;
         private Keys _keyMod = Keys.None;

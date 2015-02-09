@@ -11,7 +11,7 @@ namespace speechRecoLib
     /// <summary>
     /// Class to manage action like press key or exec bin.
     /// </summary>
-    abstract class ActionManager
+    public abstract class ActionManager
     {
         public abstract bool Perform();
     }

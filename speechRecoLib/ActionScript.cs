@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace speechRecoLib
 {
-    class ActionScript : ActionManager
+    public class ActionScript : ActionManager
     {
         string _script = null;
 

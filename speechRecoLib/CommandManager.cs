@@ -11,7 +11,7 @@ namespace speechRecoLib
     /// <summary>
     /// Command Manager. Can contain Command or other CommandManager. It's a node.
     /// </summary>
-    class CommandManager
+    public class CommandManager
     {
         /// <summary>
         /// Contain the leaf. Each Command can be a node or a terminal node.
@@ -28,7 +28,7 @@ namespace speechRecoLib
         /// </summary>
         public string _command { get; set; }
 
-        protected string _regex;
+        private string _regex;
 
         /// <summary>
         /// Add a Command Object to the CommandManager

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace speechRecoLib.ExecScript
 {
-    static class ActionClose
+    public static class ActionClose
     {
         internal static class NativeMethods
         {

@@ -18,7 +18,7 @@ namespace speechRecoLib
     /// <para>Answer will be spoken by your computer.</para>
     /// <para>Play is the name of the song to be played.</para>
     /// </summary>
-    class Command : CommandManager
+    public class Command : CommandManager
     {
         /// <summary>
         /// To play an mp3. Static to avoid overlapping.

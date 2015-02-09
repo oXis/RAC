@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace speechRecoLib
 {
-    class ProfileParser
+    public class ProfileParser
     {
         private CommandManager cmdMan = new CommandManager();
         private List<string> grammar = new List<string>();

@@ -41,7 +41,7 @@ namespace speechRecoLib
             }
             
             CommandManager cmd = profile.GetCmd();
-            
+
             SpeechManager.Start(cmd.HandleSpeechRecognized, profile.GetGrammar());
 
             ConsoleKeyInfo pressedKey;
@@ -59,7 +59,7 @@ namespace speechRecoLib
         static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("You said: " + e.Result.Text);
-            //Speak(e.Result.Text);
+            cmd.Exec(e.Result.Text);
         }
     }
 }

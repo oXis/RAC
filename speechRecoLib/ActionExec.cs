@@ -11,7 +11,7 @@ namespace speechRecoLib
     /// <summary>
     /// Class that execute a program based on its name. Like notepad or chrome.
     /// </summary>
-    class ActionExec : ActionManager
+    public class ActionExec : ActionManager
     {
         string _exec = null;
 
