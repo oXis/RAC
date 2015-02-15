@@ -56,10 +56,10 @@ namespace speechRecoLib
             SpeechManager.Stop();
         }
 
-        static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        /*static void HandleSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("You said: " + e.Result.Text);
             cmd.Exec(e.Result.Text);
-        }
+        }*/
     }
 }

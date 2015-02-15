@@ -4,6 +4,7 @@ using System.Linq;
 using System.Speech.Recognition;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace speechRecoLib
@@ -159,7 +160,17 @@ namespace speechRecoLib
         public bool Exec(string sentence, bool first=true)
         {
             bool did_something = false;
-            string[] texts = sentence.ToLower().Split(new string[] {"and", ",", "et", "."}, StringSplitOptions.None);
+            string[] texts = {""};
+
+            if (Thread.CurrentThread.CurrentCulture.Name == "en-US" || Thread.CurrentThread.CurrentCulture.Name == "en-GB")
+            {
+                texts = sentence.ToLower().Split(new string[] { "and", ",", "." }, StringSplitOptions.None);
+            }
+            else if (Thread.CurrentThread.CurrentCulture.Name == "fr-FR")
+            {
+                texts = sentence.ToLower().Split(new string[] { ",", "et", "." }, StringSplitOptions.None);
+            }
+            
 
             foreach (string text in texts)
             {

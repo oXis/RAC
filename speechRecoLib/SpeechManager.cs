@@ -49,7 +49,6 @@ namespace speechRecoLib
             _recognizer.SetInputToDefaultAudioDevice();
             _recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
-            Console.WriteLine("Ready");
         }
 
         /// <summary>
@@ -86,6 +85,18 @@ namespace speechRecoLib
                 gb.AppendDictation(word);
             }
             _recognizer.LoadGrammar(new Grammar(gb));
+        }
+
+        public static List<RecognizerInfo> GetInstalledEngine() 
+        {
+            List<RecognizerInfo> infos = new List<RecognizerInfo>();
+
+            foreach (RecognizerInfo info in SpeechRecognitionEngine.InstalledRecognizers())
+            {
+                infos.Add(info);
+            }
+
+            return infos;
         }
 
         /*
